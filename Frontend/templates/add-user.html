@@ -1,0 +1,39 @@
+<ion-view title="Ajouter un nouvel utilisateur" ng-controller="addUser">
+	<ion-content>
+		<form name="addUserForm" ng-init="setFormScope(this)" data-ng-submit="userSubmit()">
+			<div class="list">
+				<div class="item item-divider">
+				Infos de l'utilisateur
+				</div>
+
+				<label class="item item-input">
+					<input type="text" placeholder="Identifiant" ng-model="newuser.name" required>
+				</label>
+				<label class="item item-input">
+					<input type="password" placeholder="Mot de passe" ng-model="newuser.password" required>
+				</label>
+				<label class="item item-input">
+					<input type="password" placeholder="Retapez le mot de passe" ng-model="newuser.password2" required>
+				</label>
+				<label class="item item-input">
+					<input type="email" placeholder="Email" ng-model="newuser.email" required>
+				</label>
+				<label class="item item-input item-select">
+					<div class="input-label">
+						Access Level
+					</div>
+					<select ng-model="newuser.access_level" required>
+						<option value="0">Membre</option>
+						<option value="9">Administrateur</option>
+					</select>
+				</label>
+
+			</div>
+			<div class="padding">
+				<button class="button button-balanced">
+					Ajouter l'utilisateur
+				</button>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>

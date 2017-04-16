@@ -1,0 +1,104 @@
+<ion-view title="{{device.name}}" ng-controller="devicesCtrl">
+	<ion-content class="padding">
+		<div ng-if="device.id === null">
+			<h5 class="text-center">No Devices to Show</h5>
+		</div>
+		<div ng-if="device.id != null">
+
+			<div class="list">
+				<div class="item item-icon-left">
+					<i class="icon" ng-class="device.icon"></i>
+					{{device.name}}
+					<span class="item-note">
+					{{device.status}}
+					</span>
+					<span class="item-note" ng-class="device.color" ng-if="(actions | filter:{id:device.actionSelect})[0].valueonoff === 'OFF'">
+						{{ (actions | filter:{id:device.actionSelect})[0].valueonoff }}
+					</span>
+					<span class="item-note" ng-class="device.color" ng-if="(actions | filter:{id:device.actionSelect})[0].valueonoff === 'ON'">
+						{{ (actions | filter:{id:device.actionSelect})[0].value }}{{ (actions | filter:{id:device.actionSelect})[0].units }}
+					</span>
+				</div>
+				<li ng-if="(actions | filter:{id:device.actionSelect})[0].type === 'range'" class="item">
+					{{ (actions | filter:{id:device.actionSelect})[0].name }}
+					<span class="item-note">
+						{{ (actions | filter:{id:device.actionSelect})[0].value }}{{ (actions | filter:{id:device.actionSelect})[0].units }}
+					</span>
+				</li>
+				<!-- si action type range -->
+				<div ng-if="(actions | filter:{id:device.actionSelect})[0].type === 'range'" class="item range range-balanced">
+					<i class="icon" ng-class="(actions | filter:{id:device.actionSelect})[0].iconBefore"></i>
+					<input type="range"
+						   ng-change="dimmer()"
+						   ng-disabled="isDisabled"
+						   ng-model="(actions | filter:{id:device.actionSelect})[0].value"
+						   name="{{ (actions | filter:{id:device.actionSelect})[0].id }}_action"
+						   min="{{ (actions | filter:{id:device.actionSelect})[0].minValue }}"
+						   max="{{ (actions | filter:{id:device.actionSelect})[0].maxValue }}">
+					<i class="icon" ng-class="(actions | filter:{id:device.actionSelect})[0].iconAfter"></i>
+				</div>
+				<div ng-if="device.id === '1'" > <!-- si variateur de lumiere: btn on off -->
+					<li class="item">
+						<button class="button button-balanced" ng-click="on()" ng-disabled="isDisabledon">
+							<md-icon class="ion-ios7-lightbulb"></md-icon>
+						</button>
+						<button class="button button-assertive" ng-click="off()" ng-disabled="isDisabledoff">
+							<md-icon class="ion-ios7-lightbulb-outline"></md-icon>
+						</button>
+					</li>
+				</div>
+				<!-- si action type ON STOP ON -->
+				<div ng-if="(actions | filter:{id:device.actionSelect})[0].type === '3pos'" >
+					<li class="item">
+						<button class="button button-balanced" ng-click="blinds('up')" ng-disabled="isDisabledup">
+							<md-icon class="ion-arrow-up-c"></md-icon>
+						</button>
+						<button class="button button-balanced" ng-click="blinds('stop')" ng-disabled="isDisabledstop">
+							<md-icon class="ion-minus-circled"></md-icon>
+						</button>
+						<button class="button button-balanced" ng-click="blinds('down')" ng-disabled="isDisableddown">
+							<md-icon class="ion-arrow-down-c"></md-icon>
+						</button>
+					</li>
+				</div>
+				<!-- si action type toogle -->
+				<div ng-if="(actions | filter:{id:device.actionSelect})[0].type === 'toggle'" >
+						<li class="item">
+							<button class="button button-balanced" ng-click="loxone(device.id)" >
+								<md-icon class="ion-ios7-lightbulb"></md-icon> / <md-icon class="ion-ios7-lightbulb-outline"></md-icon>
+							</button>
+						</li>
+				</div>
+				<!-- si action type off -->
+				<div ng-if="(actions | filter:{id:device.actionSelect})[0].type === 'off'" >
+					<li class="item">
+						<button class="button button-stable" ng-click="loxone(device.id)" >
+							<md-icon class="ion-ios7-lightbulb"></md-icon>
+						</button>
+					</li>
+				</div>
+				<!-- si action type color -->
+				<div ng-if="(actions | filter:{id:device.actionSelect})[0].type === 'color'" >
+					<li class="item">
+						<button class="button button-positive" ng-click="loxoneRGBW('Bleu')">
+							<md-icon class="ion-ios7-circle-outline"></md-icon>
+						</button>
+						<button class="button button-assertive" ng-click="loxoneRGBW('Rouge')">
+							<md-icon class="ion-ios7-circle-outline"></md-icon>
+						</button>
+						<button class="button button-balanced" ng-click="loxoneRGBW('Vert')">
+							<md-icon class="ion-ios7-circle-outline"></md-icon>
+						</button>
+						<button class="button button-light" ng-click="loxoneRGBW('Blanc')">
+							<md-icon class="ion-ios7-circle-outline"></md-icon>
+						</button>
+						<button class="button button-stable right-buttons" ng-click="loxoneRGBW('off')"  ng-disabled="isDisabledoff">
+							<md-icon class="ion-minus-circled"></md-icon>
+						</button>
+					</li>
+				</div>
+
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,36 @@
+<ion-view title="Devices">
+
+	<ion-content class="padding-vertical">
+
+		<!--status de la lampe: {{data}}-->
+		<div class="clearfix"></div>
+	<!-- exemple pour querry la liste complete d'un json et d'afficher seulement les val des key voulues -->
+		<table>
+			<tr ng-repeat="item in data">
+			<td>{{item.Name}}</td>
+			<td>{{item.Data}}</td>
+			</tr>
+		</table>
+
+		<div class="clearfix"></div>
+
+		<div ng-repeat="device in devices">
+			<div class="col-lg-50">
+				<div class="item item-icon-left" on-tap="deviceTap('router.device', device)">
+					<i class="icon" ng-class="device.icon"></i>
+					{{ device.name }}
+					<span class="item-note" ng-class="device.color">
+						{{ device.status }}
+					</span>
+					<span class="item-note" ng-class="device.color" ng-if="(actions | filter:{id:device.actionSelect})[0].valueonoff === 'OFF'">
+						{{ (actions | filter:{id:device.actionSelect})[0].valueonoff }}
+					</span>
+					<span class="item-note" ng-class="device.color" ng-if="(actions | filter:{id:device.actionSelect})[0].valueonoff === 'ON'">
+						{{ (actions | filter:{id:device.actionSelect})[0].value }}{{ (actions | filter:{id:device.actionSelect})[0].units }}
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</ion-content>
+</ion-view>
